@@ -5,6 +5,7 @@ import pojos.LogInfo;
 import pojos.ViewInfo;
 import pojos.User;
 
+import java.io.IOException;
 import java.util.List;
 
 public class UserManagementService {

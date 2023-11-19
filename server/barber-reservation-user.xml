@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<barber-reservation>
-    <staff id="1002">
-        <name>Danushka</name>
-        <role>barber</role>
-        <salary currency="USD">5000</salary>
-    </staff>
-</barber-reservation>

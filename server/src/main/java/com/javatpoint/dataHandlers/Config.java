@@ -1,7 +1,13 @@
 package com.javatpoint.dataHandlers;
 
+import pojos.Reservation;
+import pojos.User;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Config {
-    public static final String FILENAME_USER = "barber-reservation-user.xml";
-    public static final String FILENAME_BOOKING = "barber-reservation-booking.xml";
-    public static final String FORMAT_USER_XSLT = "barber-reservation-user.xslt";
+    public static List<User> system_user = new ArrayList<>();
+    public static List<Reservation> system_reservation = new ArrayList<>();
+
 }
