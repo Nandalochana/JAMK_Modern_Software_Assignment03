@@ -13,8 +13,8 @@ module.exports.createUser = function createUser (req, res, next, body) {
     });
 };
 
-module.exports.createUser = function createUser (req, res, next, body) {
-  User.createUser(body)
+module.exports.modifyuser = function modifyuser (req, res, next, body) {
+  User.modifyuser(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })

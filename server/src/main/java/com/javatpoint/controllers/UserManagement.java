@@ -1,6 +1,7 @@
 package com.javatpoint.controllers;
 
 import com.javatpoint.service.UserManagementService;
+import org.springframework.http.HttpStatus;
 import pojos.LogInfo;
 import pojos.ViewInfo;
 import pojos.User;
@@ -15,29 +16,40 @@ import java.util.List;
 public class UserManagement {
 
 
-    @RequestMapping(value = "/createuser")
+    @RequestMapping(value = "/user/createuser")
     public ResponseEntity<User> createUser(User user) {
         UserManagementService service = new UserManagementService();
-        return ResponseEntity.ok(service.createUser(user));
+        User user1 = service.createUser(user);
+        if(user1!=null){
+            return ResponseEntity.ok(user1);
+        }
+        else{
+            ResponseEntity.BodyBuilder status = ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE);
+            return status.body(new User());
+        }
+
     }
 
-    @RequestMapping(value = "/modifyuser")
+    @RequestMapping(value = "/user/modifyuser")
     public ResponseEntity<User> modifyUser(User user) {
         UserManagementService service = new UserManagementService();
         return ResponseEntity.ok(service.modifyUser(user));
     }
 
-    @RequestMapping(value = "/deleteuser")
-    public ResponseEntity<Integer> deleteUser(User user) {
+    @RequestMapping(value = "/user/deleteuser")
+    public ResponseEntity<Integer> deleteUser(int id) {
         UserManagementService service = new UserManagementService();
+        User user = new User();
+        user.setId(id);
         return ResponseEntity.ok(service.deleteUser(user));
     }
 
-    @RequestMapping(value = "/showuser")
+    @RequestMapping(value = "/user/showallusers")
     public ResponseEntity<List<User>> showUser(ViewInfo viewInfo) {
         UserManagementService service = new UserManagementService();
         return ResponseEntity.ok(service.showUsers(viewInfo));
     }
+    // tested
 
     @RequestMapping(value = "/login")
     public ResponseEntity<User> login(LogInfo logInfo) {

@@ -15,7 +15,7 @@ public class UserManagementService {
         if (user != null) {
 
             UserManagementController usermanagement = new UserManagementController();
-            return usermanagement.createOrModifyuser(user);
+            return usermanagement.createOrModifyuser(user,true);
 
         }
         return null;
@@ -27,7 +27,7 @@ public class UserManagementService {
         if (user != null) {
 
             UserManagementController usermanagement = new UserManagementController();
-            return usermanagement.createOrModifyuser(user);
+            return usermanagement.createOrModifyuser(user,false);
 
         }
         return null;

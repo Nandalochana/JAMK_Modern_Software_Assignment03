@@ -24,16 +24,28 @@ public class UserManagementController {
     }
 
 
-    public User createOrModifyuser(User user) {
+    public User createOrModifyuser(User user, boolean isCreate) {
         List<User> allusers = new ArrayList<>(Config.system_user);
         if (allusers.isEmpty()) {
             Config.system_user.add(user);
         }
         else {
-            for (User user1 : allusers) {
-                if (user1.getId() == user.getId()) {
-                    Config.system_user.remove(user1);
-                    Config.system_user.add(user);
+            if (isCreate) {
+                for (User user1 : allusers) {
+                    if (user1.getId() == user.getId()) {
+                        Config.system_user.remove(user1);
+                        Config.system_user.add(user);
+                        return user;
+                    }
+
+                }
+            } else {
+                for (User user1 : allusers) {
+                    if (user1.getId() == user.getId()) {
+                        Config.system_user.remove(user1);
+                        Config.system_user.add(user);
+                        return user;
+                    }
                 }
             }
         }
@@ -50,8 +62,7 @@ public class UserManagementController {
             } else if (viewInfo.getShowType() == 2) {
                 myList.addAll(loadUsers("customer"));
             } else {
-                myList.addAll(loadUsers("staff"));
-                myList.addAll(loadUsers("customer"));
+                myList.addAll(loadUsers());
             }
 
 
@@ -65,11 +76,16 @@ public class UserManagementController {
         List<User> myList = new ArrayList<>();
         List<User> allusers = new ArrayList<>(Config.system_user);
         for (User user : allusers) {
-            if (user.getRole().equalsIgnoreCase(role)) {
+            if (user.getRole() != null && user.getRole().equalsIgnoreCase(role)) {
                 myList.add(user);
             }
         }
         return myList;
+    }
+
+    private List<User> loadUsers() {
+        List<User> allusers = new ArrayList<>(Config.system_user);
+        return new ArrayList<>(allusers);
     }
 
     public User logIn(LogInfo logInfo) {

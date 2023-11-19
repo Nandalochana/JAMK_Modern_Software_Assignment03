@@ -31,13 +31,13 @@ exports.createUser = function(body) {
 
 
 /**
- * Create user
+ * modifyuser
  * This can only be done by the logged in user.
  *
  * body User Created user object (optional)
  * returns User
  **/
-exports.createUser = function(body) {
+exports.modifyuser = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

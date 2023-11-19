@@ -11,7 +11,7 @@ tags:
 - name: user
   description: Operations about user
 paths:
-  /createuser:
+  /user/createuser:
     post:
       tags:
       - user
@@ -114,20 +114,145 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
       x-swagger-router-controller: User
-  /user/createWithList:
+  /user/modifyuser:
     post:
+      tags:
+      - user
+      summary: modify user
+      description: This method will modify the particular user 
+      operationId: modifyuser
+      parameters:
+      - name: id
+        in: query
+        description: The user Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: username
+        in: query
+        description: The user name for login can define here 
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: firstName
+        in: query
+        description: The user first name can define here 
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string    
+      - name: lastName
+        in: query
+        description: The user last name can define here 
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string  
+      - name: email
+        in: query
+        description: The user login email can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string  
+      - name: password
+        in: query
+        description: The user login password can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string  
+      - name: userStatus
+        in: query
+        description: The status can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: role
+        in: query
+        description: The user role can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string 
+      - name: userType
+        in: query
+        description: The status can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        description: modify user object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/User'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-swagger-router-controller: User
+  
+  /user/deleteuser:
+    delete:
+      tags:
+      - user
+      summary: delete user
+      description: This method will modify the particular user 
+      operationId: deletuser
+      parameters:
+      - name: id
+        in: query
+        description: The user Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
+      x-swagger-router-controller: User
+
+  /user/showallusers:
+    get:
       tags:
       - user
       summary: Creates list of users with given input array
       description: Creates list of users with given input array
-      operationId: createUsersWithListInput
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: array
-              items:
-                $ref: '#/components/schemas/User'
+      operationId: showAllusers
       responses:
         "200":
           description: Successful operation
@@ -141,6 +266,12 @@ paths:
         default:
           description: successful operation
       x-swagger-router-controller: User
+
+
+
+
+
+
   /user/login:
     get:
       tags:
