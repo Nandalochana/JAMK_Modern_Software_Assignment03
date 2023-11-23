@@ -442,7 +442,7 @@ paths:
       x-swagger-router-controller: Reservation
 
   /reservation/updatereservation: 
-    put:
+    patch:
       tags:
       - update-reservation
       summary: createreservation
