@@ -104,7 +104,7 @@ public class UserManagementController {
     public User logOut(LogInfo logInfo) {
         final User[] selectedUser = {null};
         tempCacheLevel.loginInfo.forEach(o -> {
-            if (logInfo.getEmail().equalsIgnoreCase(o.getEmail()) && logInfo.getPassword().equalsIgnoreCase(o.getPassword())) {
+            if (logInfo.getEmail().equalsIgnoreCase(o.getEmail())) {
                 selectedUser[0] = o;
             }
         });
@@ -115,5 +115,17 @@ public class UserManagementController {
 
     public List<User> showLoggingUserInfo() {
         return tempCacheLevel.loginInfo;
+    }
+
+    public User deleteuser(LogInfo logInfo) {
+        final User[] selectedUser = {null};
+        Config.system_user.forEach(o -> {
+            if (logInfo.getEmail().equalsIgnoreCase(o.getEmail())) {
+                selectedUser[0] = o;
+            }
+        });
+        User user = selectedUser[0];
+        tempCacheLevel.loginInfo.remove(user);
+        return user;
     }
 }

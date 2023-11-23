@@ -217,7 +217,6 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
       x-swagger-router-controller: User
-  
   /user/deleteuser:
     delete:
       tags:
@@ -250,8 +249,8 @@ paths:
     get:
       tags:
       - user
-      summary: Creates list of users with given input array
-      description: Creates list of users with given input array
+      summary: show list of users as an array
+      description: show list of users as an array
       operationId: showAllusers
       responses:
         "200":
@@ -266,12 +265,6 @@ paths:
         default:
           description: successful operation
       x-swagger-router-controller: User
-
-
-
-
-
-
   /user/login:
     get:
       tags:
@@ -280,9 +273,9 @@ paths:
       description: ""
       operationId: loginUser
       parameters:
-      - name: username
+      - name: email
         in: query
-        description: The user name for login
+        description: The user email for login
         required: false
         style: form
         explode: true
@@ -315,13 +308,12 @@ paths:
                 type: string
                 format: date-time
           content:
-            application/xml:
-              schema:
-                type: string
-                x-content-type: application/xml
             application/json:
               schema:
-                type: string
+                $ref: '#/components/schemas/User'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/User'
         "400":
           description: Invalid username/password supplied
       x-swagger-router-controller: User
@@ -329,33 +321,36 @@ paths:
     get:
       tags:
       - user
-      summary: Logs out current logged in user session
+      summary: LogOut user into the system
       description: ""
-      operationId: logoutUser
-      parameters: []
-      responses:
-        default:
-          description: successful operation
-      x-swagger-router-controller: User
-  /user/{username}:
-    get:
-      tags:
-      - user
-      summary: Get user by user name
-      description: ""
-      operationId: getUserByName
+      operationId: logout
       parameters:
-      - name: username
-        in: path
-        description: 'The name that needs to be fetched. Use user1 for testing. '
-        required: true
-        style: simple
-        explode: false
+      - name: email
+        in: query
+        description: The user email for login
+        required: false
+        style: form
+        explode: true
         schema:
           type: string
       responses:
         "200":
           description: successful operation
+          headers:
+            X-Rate-Limit:
+              description: calls per hour allowed by the user
+              style: simple
+              explode: false
+              schema:
+                type: integer
+                format: int32
+            X-Expires-After:
+              description: date in UTC when token expires
+              style: simple
+              explode: false
+              schema:
+                type: string
+                format: date-time
           content:
             application/json:
               schema:
@@ -364,62 +359,318 @@ paths:
               schema:
                 $ref: '#/components/schemas/User'
         "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
-      x-swagger-router-controller: User
-    put:
+          description: Invalid username/password supplied
+      x-swagger-router-controller: User   
+  /reservation/createreservation: 
+    post:
       tags:
-      - user
-      summary: Update user
-      description: This can only be done by the logged in user.
-      operationId: updateUser
+      - create-reservation
+      summary: createreservation
+      description: This method will modifcreate the createreservation 
+      operationId: createreservation
       parameters:
-      - name: username
-        in: path
-        description: name that need to be deleted
-        required: true
-        style: simple
-        explode: false
+      - name: id
+        in: query
+        description: The reservation Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: customerId
+        in: query
+        description: The customerId Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: barberid
+        in: query
+        description: The barber Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: time
+        in: query
+        description: The booking time can define here
+        required: false
+        style: form
+        explode: true
         schema:
           type: string
+      - name: date
+        in: query
+        description: The booking date can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: The status can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
       requestBody:
-        description: Update an existent user in the store
+        description: create reservation object
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Reservation'
           application/xml:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Reservation'
           application/x-www-form-urlencoded:
             schema:
-              $ref: '#/components/schemas/User'
+              $ref: '#/components/schemas/Reservation'
       responses:
         default:
           description: successful operation
-      x-swagger-router-controller: User
-    delete:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+      x-swagger-router-controller: Reservation
+
+  /reservation/updatereservation: 
+    put:
       tags:
-      - user
-      summary: Delete user
-      description: This can only be done by the logged in user.
-      operationId: deleteUser
+      - update-reservation
+      summary: createreservation
+      description: This method will modifcreate the reservation 
+      operationId: modifyreservation
       parameters:
-      - name: username
-        in: path
-        description: The name that needs to be deleted
-        required: true
-        style: simple
-        explode: false
+      - name: id
+        in: query
+        description: The reservation Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: customerId
+        in: query
+        description: The customerId Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: barberid
+        in: query
+        description: The barber Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: time
+        in: query
+        description: The booking time can define here
+        required: false
+        style: form
+        explode: true
         schema:
           type: string
+      - name: date
+        in: query
+        description: The booking date can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: The status can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        description: create reservation object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reservation'
       responses:
-        "400":
-          description: Invalid username supplied
-        "404":
-          description: User not found
-      x-swagger-router-controller: User
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+      x-swagger-router-controller: Reservation   
+  /reservation/deletereservation: 
+    post:
+      tags:
+      - delete-reservation
+      summary: createreservation
+      description: This method will delete the createreservation 
+      operationId: deleteresevation
+      parameters:
+      - name: id
+        in: query
+        description: The reservation Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: customerId
+        in: query
+        description: The customerId Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: barberid
+        in: query
+        description: The barber Id can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      - name: time
+        in: query
+        description: The booking time can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: date
+        in: query
+        description: The booking date can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: status
+        in: query
+        description: The status can define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        description: create reservation object
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/xml:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Reservation'
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+      x-swagger-router-controller: Reservation
+  /reservation/showreservation:
+    get:
+      tags:
+      - Reservation
+      summary: show list of Reservation as an array
+      description: show list of users as an array
+      operationId: showAllusers
+      responses:
+        "200":
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+        default:
+          description: successful operation
+      x-swagger-router-controller: Reservation
+  
+  /reservation/showreservationbycriteria:
+    post:
+      tags:
+      - Reservation
+      summary: search reservation by crieria
+      description: This method will search Reservation by crierias  
+      operationId: searchreservation
+      parameters:
+      - name: customername
+        in: query
+        description: The customername define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: barbername
+        in: query
+        description: The barbername define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: startdate
+        in: query
+        description: The startdate define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+      - name: enddate
+        in: query
+        description: The enddate define here
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: object
+      responses:
+        default:
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+            application/xml:
+              schema:
+                $ref: '#/components/schemas/Reservation'
+      x-swagger-router-controller: Reservation
 components:
   schemas:
     User:
@@ -466,33 +717,50 @@ components:
         username: Nandalochana
       xml:
         name: user
-    Tag:
+    Reservation: 
       type: object
       properties:
         id:
           type: integer
           format: int64
-        name:
-          type: string
+        customerid:
+          type: integer
+          format: int64  
+        barberid:
+          type: integer
+          format: int64   
+        status:
+          type: integer
+          format: int64  
+        time:
+          type: object
+          format: date-time  
+        date:
+          type: object
+          format: date-time        
       example:
-        name: name
-        id: 0
+        id: 5001
+        customerId: 15004
+        barberid: 450
+        status: 1
+        time: 20:13
+        date: 2013-10-11
       xml:
         name: tag
-    ApiResponse:
+    SearchInfo:
       type: object
       properties:
-        code:
-          type: integer
-          format: int32
-        type:
-          type: string
-        message:
-          type: string
+        customername:
+            type: string
+        barbername:
+            type: string
+        startdate:
+          type: object
+        enddate:
+          type: object
       example:
-        code: 0
-        type: type
-        message: message
+        customername: danushka
+        barbername: kamal
       xml:
         name: '##default'
   requestBodies:

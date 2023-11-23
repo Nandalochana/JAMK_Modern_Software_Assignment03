@@ -2,12 +2,11 @@ package com.javatpoint.controllers;
 
 import com.javatpoint.service.UserManagementService;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 import pojos.LogInfo;
 import pojos.ViewInfo;
 import pojos.User;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.io.IOException;
 import java.util.List;
@@ -51,16 +50,21 @@ public class UserManagement {
     }
     // tested
 
-    @RequestMapping(value = "/login")
-    public ResponseEntity<User> login(LogInfo logInfo) {
+    @GetMapping("/user/login")
+    public ResponseEntity<User> login(@RequestParam(defaultValue = "email") String email,@RequestParam(defaultValue = "password") String password) {
         UserManagementService service = new UserManagementService();
-        return ResponseEntity.ok(service.loginUser(logInfo));
+        LogInfo info = new LogInfo();
+        info.setEmail(email);
+        info.setPassword(password);
+        return ResponseEntity.ok(service.loginUser(info));
     }
 
-    @RequestMapping(value = "/logout")
-    public ResponseEntity<User> logOut(LogInfo LogInfo) {
+    @RequestMapping(value = "/user/logout")
+    public ResponseEntity<User> logOut(@RequestParam(defaultValue = "danushka") String email) {
         UserManagementService service = new UserManagementService();
-        return ResponseEntity.ok(service.logOut(LogInfo));
+        LogInfo info = new LogInfo();
+        info.setEmail(email);
+        return ResponseEntity.ok(service.logOut(info));
     }
 
     @RequestMapping(value = "/viewlogusers")

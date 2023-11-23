@@ -59,7 +59,6 @@ public class UserManagementService {
     public User loginUser(LogInfo logInfo) {
         UserManagementController usermanagement = new UserManagementController();
         return usermanagement.logIn(logInfo);
-
     }
 
     public User logOut(LogInfo logInfo) {
